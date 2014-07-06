@@ -1,9 +1,13 @@
 {
     "name": "navigation",
     "description": "navigation component",
-    "local": ["dust", "serand"],
+    "local": [],
     "styles": ["styles.css"],
     "scripts": ["index.js"],
-    "templates" : ["template.html", "user-anon-ui.html", "user-logged-ui.html"],
-    "main": "index.js"
+    "templates": ["template.html", "user-anon-ui.html", "user-logged-ui.html"],
+    "main": "index.js",
+    "dependencies": {
+        "serandomps/dust": "master",
+        "serandomps/serand": "master"
+    }
 }
