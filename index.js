@@ -15,7 +15,7 @@ var login = function (sandbox, el, fn) {
             return;
         }
         fn(false, function () {
-            sandbox.remove('.navigation');
+            $('.navigation', sandbox).remove();
         });
     });
 };
@@ -27,7 +27,7 @@ var anon = function (sandbox, el, fn) {
             return;
         }
         fn(false, function () {
-            sandbox.remove('.navigation');
+            $('.navigation', sandbox).remove();
         })
     });
 };
