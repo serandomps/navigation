@@ -40,7 +40,7 @@ module.exports = function (sandbox, fn, options) {
             fn(err);
             return;
         }
-        var el = $(out).appendTo(sandbox);
+        var el = $(out).appendTo(sandbox.empty());
         elems.push({
             sandbox: sandbox,
             el: el
@@ -56,14 +56,14 @@ serand.on('boot', 'page', function (ctx) {
     elems = [];
 });
 
-serand.on('user', 'login', function (data) {
+serand.on('user', 'logged in', function (data) {
     user = data;
     elems.forEach(function (o) {
         login(o.sandbox, o.el);
     });
 });
 
-serand.on('user', 'logout', function (data) {
+serand.on('user', 'logged out', function (data) {
     user = null;
     elems.forEach(function (o) {
         anon(o.sandbox, o.el);
