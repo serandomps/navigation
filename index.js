@@ -3,9 +3,10 @@ var serand = require('serand');
 
 var user;
 
-var elems = [];
+var sanbox;
 
-var login = function (sandbox, el, fn) {
+var login = function (fn) {
+    var el = $('.navigation', sanbox);
     dust.renderSource(require('./user-logged-ui'), user, function (err, out) {
         $('.navbar-right', el).html(out);
         $('.navigation-user-ui', el).on('click', '.logout', function () {
@@ -15,19 +16,22 @@ var login = function (sandbox, el, fn) {
             return;
         }
         fn(false, function () {
-            $('.navigation', sandbox).remove();
+            $('.user-logged-ui', sanbox).remove();
+            sanbox = null;
         });
     });
 };
 
-var anon = function (sandbox, el, fn) {
+var anon = function (fn) {
+    var el = $('.navigation', sanbox);
     dust.renderSource(require('./user-anon-ui'), {}, function (err, out) {
         $('.navbar-right', el).html(out);
         if (!fn) {
             return;
         }
         fn(false, function () {
-            $('.navigation', sandbox).remove();
+            $('.user-anon-ui', sanbox).remove();
+            sanbox = null;
         })
     });
 };
@@ -40,32 +44,24 @@ module.exports = function (sandbox, fn, options) {
             fn(err);
             return;
         }
-        var el = $(out).appendTo(sandbox.empty());
-        elems.push({
-            sandbox: sandbox,
-            el: el
-        });
-        user ? login(sandbox, el, fn) : anon(sandbox, el, fn);
-        /*fn(false, function () {
-         sandbox.remove('.navigation');
-         });*/
+        $(out).appendTo(sandbox.empty());
+        sanbox = sandbox;
+        user ? login(fn) : anon(fn);
     });
 };
 
 serand.on('boot', 'page', function (ctx) {
-    elems = [];
+
 });
 
 serand.on('user', 'logged in', function (data) {
+    console.log('navigation user logged in');
+    console.log(data);
     user = data;
-    elems.forEach(function (o) {
-        login(o.sandbox, o.el);
-    });
+    login(null);
 });
 
 serand.on('user', 'logged out', function (data) {
     user = null;
-    elems.forEach(function (o) {
-        anon(o.sandbox, o.el);
-    });
+    anon(null);
 });
