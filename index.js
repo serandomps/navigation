@@ -54,6 +54,8 @@ serand.on('boot', 'page', function (ctx) {
 
 });
 
+console.log('------------navigation-------------');
+
 serand.on('user', 'logged in', function (data) {
     console.log('navigation user logged in');
     console.log(data);
