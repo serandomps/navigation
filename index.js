@@ -7,7 +7,7 @@ var sanbox;
 
 var login = function (fn) {
     var el = $('.navigation', sanbox);
-    dust.renderSource(require('./user-logged-ui.html'), user, function (err, out) {
+    dust.renderSource(require('./user-logged-ui'), user, function (err, out) {
         $('.navbar-right', el).html(out);
         $('.navigation-user-ui', el).on('click', '.logout', function () {
             serand.emit('user', 'logout', user);
@@ -24,7 +24,7 @@ var login = function (fn) {
 
 var anon = function (fn) {
     var el = $('.navigation', sanbox);
-    dust.renderSource(require('./user-anon-ui.html'), {}, function (err, out) {
+    dust.renderSource(require('./user-anon-ui'), {}, function (err, out) {
         $('.navbar-right', el).html(out);
         if (!fn) {
             return;
@@ -36,7 +36,7 @@ var anon = function (fn) {
     });
 };
 
-dust.loadSource(dust.compile(require('./template.html'), 'navigation-ui'));
+dust.loadSource(dust.compile(require('./template'), 'navigation-ui'));
 
 module.exports = function (sandbox, fn, options) {
     dust.render('navigation-ui', options, function (err, out) {
