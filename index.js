@@ -50,10 +50,6 @@ module.exports = function (sandbox, fn, options) {
     });
 };
 
-serand.on('boot', 'page', function (ctx) {
-
-});
-
 serand.on('user', 'logged in', function (data) {
     console.log('navigation user logged in');
     console.log(data);
