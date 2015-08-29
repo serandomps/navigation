@@ -3,6 +3,8 @@ var serand = require('serand');
 
 var user;
 
+var context;
+
 var sanbox;
 
 var login = function (fn) {
@@ -39,15 +41,15 @@ var anon = function (fn) {
 dust.loadSource(dust.compile(require('./template'), 'navigation-ui'));
 
 module.exports = function (sandbox, fn, options) {
-    dust.render('navigation-ui', options, function (err, out) {
-        if (err) {
-            fn(err);
-            return;
-        }
-        $(out).appendTo(sandbox.empty());
-        sanbox = sandbox;
-        user ? login(fn) : anon(fn);
-    });
+    var destroy = function () {
+        $('.navigation', sandbox).remove();
+    };
+    context = {
+        sandbox: sandbox,
+        options: options,
+        destroy: destroy
+    };
+    fn(false, destroy);
 };
 
 serand.on('user', 'logged in', function (data) {
@@ -60,4 +62,15 @@ serand.on('user', 'logged in', function (data) {
 serand.on('user', 'logged out', function (data) {
     user = null;
     anon(null);
+});
+
+serand.on('navigation', 'render', function(links) {
+    links.user = user;
+    dust.render('navigation-ui', links, function (err, out) {
+        if (err) {
+            return;
+        }
+        context.destroy();
+        $(out).appendTo(context.sandbox);
+    });
 });

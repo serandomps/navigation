@@ -40,7 +40,23 @@
                         </li>-->
                     </ul>
 
-                    <ul class="nav navbar-nav navbar-right"></ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        {?user}
+                        {#user}
+                        <li class="dropdown navigation-user-ui">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{username}<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" class="account">Account</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#" class="logout">Logout</a></li>
+                            </ul>
+                        </li>
+                        {/user}
+                        {:else}
+                        <li class="navigation-user-ui"><a href="/signin">Sign in</a></li>
+                        <li class="navigation-user-ui"><a href="/signup">Sign up</a></li>
+                        {/user}
+                    </ul>
                     <form class="navbar-form" role="search">
                         <div class="form-group search">
                             <div class="input-group">
