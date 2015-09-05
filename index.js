@@ -5,41 +5,49 @@ var user;
 
 var context;
 
-var sanbox;
+var sandbox;
 
-var login = function (fn) {
-    var el = $('.navigation', sanbox);
+var login = function () {
+    var el = $('.navigation', context.sandbox);
     dust.renderSource(require('./user-logged-ui'), user, function (err, out) {
         $('.navbar-right', el).html(out);
-        $('.navigation-user-ui', el).on('click', '.logout', function () {
-            serand.emit('user', 'logout', user);
-        });
-        if (!fn) {
-            return;
-        }
-        fn(false, function () {
-            $('.user-logged-ui', sanbox).remove();
-            sanbox = null;
-        });
     });
 };
 
-var anon = function (fn) {
-    var el = $('.navigation', sanbox);
+var anon = function () {
+    var el = $('.navigation', sandbox);
     dust.renderSource(require('./user-anon-ui'), {}, function (err, out) {
         $('.navbar-right', el).html(out);
-        if (!fn) {
-            return;
+    });
+};
+
+var render = function (links, done) {
+    context.destroy();
+    if (!done) {
+        done = function () {
+
+        };
+    }
+    dust.render('navigation-ui', {
+        user: user,
+        home: links.home,
+        menu: links.menu
+    }, function (err, out) {
+        if (err) {
+            return done(err);
         }
-        fn(false, function () {
-            $('.user-anon-ui', sanbox).remove();
-            sanbox = null;
-        })
+        var el = context.sandbox;
+        el.append(out);
+        $('.navigation-user-ui', el).on('click', '.logout', function () {
+            serand.emit('user', 'logout', user);
+        });
+        done();
     });
 };
 
 dust.loadSource(dust.compile(require('./template'), 'navigation-ui'));
 
+//TODO: fix navigation issue here ruchira
 module.exports = function (sandbox, fn, options) {
     var destroy = function () {
         $('.navigation', sandbox).remove();
@@ -49,28 +57,25 @@ module.exports = function (sandbox, fn, options) {
         options: options,
         destroy: destroy
     };
-    fn(false, destroy);
+    render(options, function (err) {
+        fn(err, destroy);
+    });
 };
 
-serand.on('user', 'logged in', function (data) {
-    console.log('navigation user logged in');
-    console.log(data);
-    user = data;
-    login(null);
+serand.on('user', 'logged in', function (usr) {
+    user = usr;
+    if (!context) {
+        return;
+    }
+    login();
 });
 
-serand.on('user', 'logged out', function (data) {
+serand.on('user', 'logged out', function (usr) {
     user = null;
-    anon(null);
+    if (!context) {
+        return;
+    }
+    anon();
 });
 
-serand.on('navigation', 'render', function(links) {
-    links.user = user;
-    dust.render('navigation-ui', links, function (err, out) {
-        if (err) {
-            return;
-        }
-        context.destroy();
-        $(out).appendTo(context.sandbox);
-    });
-});
+serand.on('navigation', 'render', render);
