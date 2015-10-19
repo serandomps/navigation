@@ -62,6 +62,14 @@ module.exports = function (sandbox, fn, options) {
     });
 };
 
+serand.on('user', 'ready', function (usr) {
+    user = usr;
+    if (!context) {
+        return;
+    }
+    user ? login() : anon();
+});
+
 serand.on('user', 'logged in', function (usr) {
     user = usr;
     if (!context) {
