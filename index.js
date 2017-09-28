@@ -30,8 +30,7 @@ var render = function (links, done) {
     }
     dust.render('navigation-ui', {
         user: user,
-        home: links.home,
-        menu: links.menu
+        menu: links
     }, function (err, out) {
         if (err) {
             return done(err);

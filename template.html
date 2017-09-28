@@ -11,16 +11,16 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="{home.url}">{home.title}</a>
+                    <a class="navbar-brand" href="{menu.home.url}">{menu.home.title}</a>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <!--<li class="active"><a href="/">Home</a></li>-->
-                        {#menu}
+                        {#menu.global}
                         <li><a href="{url|url}">{title}</a></li>
-                        {/menu}
+                        {/menu.global}
                         <!--<li><a href="#">Hotels</a></li>
                         <li><a href="#">Real States</a></li>
                         <li><a href="#">Add</a></li>
@@ -42,6 +42,9 @@
 
                     <ul class="nav navbar-nav navbar-right">
                         {?user}
+                        {#menu.local}
+                        <li class="navigation-user-ui"><a href="{url}">{title}</a></li>
+                        {/menu.local}
                         {#user}
                         <li class="dropdown navigation-user-ui">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">{username}<b class="caret"></b></a>
