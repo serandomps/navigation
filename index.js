@@ -47,7 +47,7 @@ var render = function (links, done) {
 dust.loadSource(dust.compile(require('./template'), 'navigation-ui'));
 
 //TODO: fix navigation issue here ruchira
-module.exports = function (sandbox, fn, options) {
+module.exports = function (sandbox, options, done) {
     var destroy = function () {
         $('.navigation', sandbox).remove();
     };
@@ -57,7 +57,7 @@ module.exports = function (sandbox, fn, options) {
         destroy: destroy
     };
     render(options, function (err) {
-        fn(err, destroy);
+        done(err, destroy);
     });
 };
 
