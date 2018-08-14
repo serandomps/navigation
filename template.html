@@ -56,8 +56,12 @@
                         </li>
                         {/user}
                         {:else}
-                        <li class="navigation-user-ui"><a href="/signin">Sign in</a></li>
-                        <li class="navigation-user-ui"><a href="/signup">Sign up</a></li>
+                        {#menu.signin}
+                        <li class="navigation-user-ui"><a href="{url}">{title}</a></li>
+                        {/menu.signin}
+                        {#menu.signup}
+                        <li class="navigation-user-ui"><a href="{url}">{title}</a></li>
+                        {/menu.signup}
                         {/user}
                     </ul>
                 </div>
