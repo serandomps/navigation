@@ -5,23 +5,21 @@ var user;
 
 var context;
 
-var sandbox;
-
-var login = function () {
+var login = function (context) {
     var el = $('.navigation', context.sandbox);
-    dust.renderSource(require('./user-logged-ui'), user, function (err, out) {
+    dust.renderSource(require('./user-logged-ui'), context.ctx.user, function (err, out) {
         $('.navbar-right', el).html(out);
     });
 };
 
-var anon = function () {
-    var el = $('.navigation', sandbox);
+var anon = function (context) {
+    var el = $('.navigation', context.sandbox);
     dust.renderSource(require('./user-anon-ui'), {}, function (err, out) {
         $('.navbar-right', el).html(out);
     });
 };
 
-var render = function (links, done) {
+var render = function (ctx, links, done) {
     context.destroy();
     if (!done) {
         done = function () {
@@ -29,7 +27,7 @@ var render = function (links, done) {
         };
     }
     dust.render('navigation-ui', {
-        user: user,
+        user: ctx.user,
         menu: links
     }, function (err, out) {
         if (err) {
@@ -38,7 +36,7 @@ var render = function (links, done) {
         var el = context.sandbox;
         el.append(out);
         $('.navigation-user-ui', el).on('click', '.logout', function () {
-            serand.emit('user', 'logout', user);
+            serand.emit('user', 'logout', ctx.user);
         });
         done();
     });
@@ -47,26 +45,27 @@ var render = function (links, done) {
 dust.loadSource(dust.compile(require('./template'), 'navigation-ui'));
 
 //TODO: fix navigation issue here ruchira
-module.exports = function (sandbox, options, done) {
+module.exports = function (ctx, sandbox, options, done) {
     var destroy = function () {
         $('.navigation', sandbox).remove();
     };
     context = {
+        ctx: ctx,
         sandbox: sandbox,
         options: options,
         destroy: destroy
     };
-    render(options, function (err) {
+    render(ctx, options, function (err) {
         done(err, destroy);
     });
 };
 
-serand.on('user', 'ready', function (usr) {
+/*serand.on('user', 'ready', function (usr) {
     user = usr;
     if (!context) {
         return;
     }
-    user ? login() : anon();
+    user ? login(context) : anon(context);
 });
 
 serand.on('user', 'logged in', function (usr) {
@@ -74,7 +73,7 @@ serand.on('user', 'logged in', function (usr) {
     if (!context) {
         return;
     }
-    login();
+    login(context);
 });
 
 serand.on('user', 'logged out', function (usr) {
@@ -82,7 +81,7 @@ serand.on('user', 'logged out', function (usr) {
     if (!context) {
         return;
     }
-    anon();
-});
+    anon(context);
+});*/
 
 serand.on('navigation', 'render', render);
