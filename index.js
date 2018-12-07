@@ -35,7 +35,7 @@ var render = function (ctx, links, done) {
         }
         var el = context.sandbox;
         el.append(out);
-        $('.navigation-user-ui', el).on('click', '.logout', function () {
+        $('.logout', el).on('click', function () {
             serand.emit('user', 'logout', ctx.user);
         });
         done();
@@ -45,7 +45,8 @@ var render = function (ctx, links, done) {
 dust.loadSource(dust.compile(require('./template'), 'navigation-ui'));
 
 //TODO: fix navigation issue here ruchira
-module.exports = function (ctx, sandbox, options, done) {
+module.exports = function (ctx, container, options, done) {
+    var sandbox = container.sandbox;
     var destroy = function () {
         $('.navigation', sandbox).remove();
     };

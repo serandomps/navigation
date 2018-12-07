@@ -1,75 +1,61 @@
-<div class="navigation row">
-    <div class="col-md-12">
-        <nav class="navbar navbar-default" role="navigation">
-            <div class="container-fluid">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse"
-                            data-target="#bs-example-navbar-collapse-1">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="{menu.home.url}">{menu.home.title}</a>
-                </div>
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-secondary">
+    <div class="container">
+        <a class="navbar-brand" href="{menu.home.url}">{menu.home.title}</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-{id}"
+                aria-controls="navbar-{id}" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                        <!--<li class="active"><a href="/">Home</a></li>-->
-                        {#menu.global}
-                        <li><a href="{url|url}">{title}</a></li>
-                        {/menu.global}
-                        <!--<li><a href="#">Hotels</a></li>
-                        <li><a href="#">Real States</a></li>
-                        <li><a href="#">Add</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">More
-                                <b class="caret"></b>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else here</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#">Separated link</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#">One more separated link</a></li>
-                            </ul>
-                        </li>-->
-                    </ul>
-
-                    <ul class="nav navbar-nav navbar-right">
-                        {?user}
-                        {#menu.local}
-                        <li class="navigation-user-ui"><a href="{url}">{title}</a></li>
-                        {/menu.local}
-                        {#user}
-                        <li class="dropdown navigation-user-ui">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{username}<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                {#menu.user}
-                                <li><a href="{url|url}">{title}</a></li>
-                                <li class="divider"></li>
-                                {/menu.user}
-                                <li><a href="#" class="logout suck">Logout</a></li>
-                            </ul>
-                        </li>
-                        {/user}
-                        {:else}
-                        {#menu.signin}
-                        <li class="navigation-user-ui"><a href="{url}">{title}</a></li>
-                        {/menu.signin}
-                        {#menu.signup}
-                        <li class="navigation-user-ui"><a href="{url}">{title}</a></li>
-                        {/menu.signup}
-                        {/user}
-                    </ul>
-                </div>
-                <!-- /.navbar-collapse -->
-            </div>
-            <!-- /.container-fluid -->
-        </nav>
+        <div class="collapse navbar-collapse" id="navbar-{id}">
+            <ul class="navbar-nav mr-auto">
+                {#menu.global}
+                <li class="nav-item{?active} active{/active}">
+                    <a class="nav-link" href="{url|url}">{title}
+                    {?active}
+                        <span class="sr-only">(current)</span>
+                    {/active}
+                    </a>
+                </li>
+                {/menu.global}
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                {?user}
+                {#menu.local}
+                <li class="nav-item{?active} active{/active}">
+                    <a class="nav-link" href="{url|url}">{title}
+                        {?active}
+                        <span class="sr-only">(current)</span>
+                        {/active}
+                    </a>
+                </li>
+                {/menu.local}
+                {#user}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="user-dropdown-{id}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {username}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="user-dropdown-{id}">
+                        {#menu.user}
+                        <a class="dropdown-item" href="{url|url}">{title}</a>
+                        {/menu.user}
+                        <div class="dropdown-divider"></div>
+                        <a class="logout dropdown-item" href="#">Logout</a>
+                    </div>
+                </li>
+                {/user}
+                {:else}
+                {#menu.signin}
+                <li class="nav-item">
+                    <a class="nav-link" href="{url|url}">{title}</a>
+                </li>
+                {/menu.signin}
+                {#menu.signup}
+                <li class="nav-item">
+                    <a class="nav-link" href="{url|url}">{title}</a>
+                </li>
+                {/menu.signup}
+                {/user}
+            </ul>
+        </div>
     </div>
-</div>
+</nav>
