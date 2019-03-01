@@ -19,7 +19,7 @@ var anon = function (context) {
     });
 };
 
-var render = function (ctx, links, done) {
+var render = function (ctx, container, links, done) {
     context.destroy();
     if (!done) {
         done = function () {
@@ -27,6 +27,9 @@ var render = function (ctx, links, done) {
         };
     }
     dust.render('navigation-ui', {
+        _: {
+            container: container.id,
+        },
         user: ctx.user,
         menu: links
     }, function (err, out) {
@@ -56,7 +59,7 @@ module.exports = function (ctx, container, options, done) {
         options: options,
         destroy: destroy
     };
-    render(ctx, options, function (err) {
+    render(ctx, container, options, function (err) {
         done(err, destroy);
     });
 };

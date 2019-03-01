@@ -1,12 +1,12 @@
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-secondary">
     <div class="container">
         <a class="navbar-brand" href="{menu.home.url}">{menu.home.title}</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-{id}"
-                aria-controls="navbar-{id}" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-{_.container}"
+                aria-controls="navbar-{_.container}" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbar-{id}">
+        <div class="collapse navbar-collapse" id="navbar-{_.container}">
             <ul class="navbar-nav mr-auto">
                 {#menu.global}
                 <li class="nav-item{?active} active{/active}">
@@ -31,10 +31,10 @@
                 {/menu.local}
                 {#user}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="user-dropdown-{id}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="user-dropdown-{_.container}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {username}
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="user-dropdown-{id}">
+                    <div class="dropdown-menu" aria-labelledby="user-dropdown-{_.container}">
                         {#menu.user}
                         <a class="dropdown-item" href="{url|url}">{title}</a>
                         {/menu.user}
