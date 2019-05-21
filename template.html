@@ -1,6 +1,13 @@
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-secondary">
     <div class="container">
-        <a class="navbar-brand" href="{menu.home.url}">{menu.home.title}</a>
+        <a class="home navbar-brand" href="{menu.home.url}">
+            <div class="homer">{menu.home.title}</div>
+            <div class="loader hidden">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-{_.container}"
                 aria-controls="navbar-{_.container}" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

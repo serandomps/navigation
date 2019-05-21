@@ -5,6 +5,8 @@ var user;
 
 var context;
 
+var loaders = {};
+
 var login = function (context) {
     var el = $('.navigation', context.sandbox);
     dust.renderSource(require('./user-logged-ui'), context.ctx.user, function (err, out) {
@@ -64,28 +66,22 @@ module.exports = function (ctx, container, options, done) {
     });
 };
 
-/*serand.on('user', 'ready', function (usr) {
-    user = usr;
-    if (!context) {
-        return;
-    }
-    user ? login(context) : anon(context);
+serand.on('loader', 'start', function (o) {
+    clearTimeout(loaders[o.name]);
+    loaders[o.name] = setTimeout(function () {
+        $('.sandbox-' + o.name).find('.homer').addClass('hidden').end()
+            .find('.loader').removeClass('hidden');
+    }, o.delay || 0);
 });
 
-serand.on('user', 'logged in', function (usr) {
-    user = usr;
-    if (!context) {
-        return;
-    }
-    login(context);
+serand.on('loader', 'end', function (o) {
+    $('.sandbox-' + o.name).find('.loader').addClass('hidden').end()
+        .find('.homer').removeClass('hidden');
 });
 
-serand.on('user', 'logged out', function (usr) {
-    user = null;
-    if (!context) {
-        return;
-    }
-    anon(context);
-});*/
-
-serand.on('navigation', 'render', render);
+serand.on('page', 'ready', function () {
+    Object.keys(loaders).forEach(function (handler) {
+        clearTimeout(loaders[handler]);
+    });
+    loaders = {};
+});
