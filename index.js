@@ -1,15 +1,16 @@
 var dust = require('dust')();
 var serand = require('serand');
+var utils = require('utils');
 
 var user;
 
 var context;
 
-var loaders = {};
+var loader = null;
 
 var login = function (context) {
     var el = $('.navigation', context.sandbox);
-    dust.renderSource(require('./user-logged-ui'), context.ctx.user, function (err, out) {
+    dust.renderSource(require('./user-logged-ui'), context.ctx.token.user, function (err, out) {
         $('.navbar-right', el).html(out);
     });
 };
@@ -28,11 +29,17 @@ var render = function (ctx, container, links, done) {
 
         };
     }
+    if (sera.is('admin')) {
+        links.local.unshift({
+            url: 'admin://',
+            title: 'Admin'
+        });
+    }
     dust.render('navigation-ui', {
         _: {
             container: container.id,
         },
-        user: ctx.user,
+        user: ctx.token && ctx.token.user,
         menu: links
     }, function (err, out) {
         if (err) {
@@ -41,7 +48,7 @@ var render = function (ctx, container, links, done) {
         var el = context.sandbox;
         el.append(out);
         $('.logout', el).on('click', function () {
-            serand.emit('user', 'logout', ctx.user);
+            serand.emit('user', 'logout', ctx.token.user);
         });
         done();
     });
@@ -67,21 +74,19 @@ module.exports = function (ctx, container, options, done) {
 };
 
 serand.on('loader', 'start', function (o) {
-    clearTimeout(loaders[o.name]);
-    loaders[o.name] = setTimeout(function () {
-        $('.sandbox-' + o.name).find('.homer').addClass('hidden').end()
+    clearTimeout(loader);
+    loader = setTimeout(function () {
+        $('.navigation').find('.homer').addClass('hidden').end()
             .find('.loader').removeClass('hidden');
     }, o.delay || 0);
 });
 
 serand.on('loader', 'end', function (o) {
-    $('.sandbox-' + o.name).find('.loader').addClass('hidden').end()
+    $('.navigation').find('.loader').addClass('hidden').end()
         .find('.homer').removeClass('hidden');
 });
 
 serand.on('page', 'ready', function () {
-    Object.keys(loaders).forEach(function (handler) {
-        clearTimeout(loaders[handler]);
-    });
-    loaders = {};
+    clearTimeout(loader);
+    loader = null;
 });
