@@ -9,14 +9,14 @@ var context;
 var loader = null;
 
 var login = function (context) {
-    var el = $('.navigation', context.sandbox);
+    var el = $('.navigation', context.container.sandbox);
     dust.renderSource(require('./user-logged-ui'), context.ctx.token.user, function (err, out) {
         $('.navbar-right', el).html(out);
     });
 };
 
 var anon = function (context) {
-    var el = $('.navigation', context.sandbox);
+    var el = $('.navigation', context.container.sandbox);
     dust.renderSource(require('./user-anon-ui'), {}, function (err, out) {
         $('.navbar-right', el).html(out);
     });
@@ -35,17 +35,14 @@ var render = function (ctx, container, links, done) {
             title: 'Admin'
         });
     }
-    dust.render('navigation-ui', {
-        _: {
-            container: container.id,
-        },
+    dust.render('navigation-ui', serand.pack({
         user: ctx.token && ctx.token.user,
         menu: links
-    }, function (err, out) {
+    }, container), function (err, out) {
         if (err) {
             return done(err);
         }
-        var el = context.sandbox;
+        var el = container.sandbox;
         el.append(out);
         $('.logout', el).on('click', function () {
             serand.emit('user', 'logout', ctx.token.user);
@@ -58,13 +55,12 @@ dust.loadSource(dust.compile(require('./template'), 'navigation-ui'));
 
 //TODO: fix navigation issue here ruchira
 module.exports = function (ctx, container, options, done) {
-    var sandbox = container.sandbox;
     var destroy = function () {
-        $('.navigation', sandbox).remove();
+        $('.navigation', container.sandbox).remove();
     };
     context = {
         ctx: ctx,
-        sandbox: sandbox,
+        container: container,
         options: options,
         destroy: destroy
     };
