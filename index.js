@@ -78,6 +78,7 @@ serand.on('loader', 'start', function (o) {
 });
 
 serand.on('loader', 'end', function (o) {
+    clearTimeout(loader);
     $('.navigation').find('.loader').addClass('hidden').end()
         .find('.homer').removeClass('hidden');
 });
