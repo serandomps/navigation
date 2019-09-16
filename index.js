@@ -45,7 +45,7 @@ var render = function (ctx, container, links, done) {
         var el = container.sandbox;
         el.append(out);
         $('.logout', el).on('click', function () {
-            serand.emit('user', 'logout', ctx.token.user);
+            utils.emit('user', 'logout', ctx.token.user);
         });
         done();
     });
@@ -69,7 +69,7 @@ module.exports = function (ctx, container, options, done) {
     });
 };
 
-serand.on('loader', 'start', function (o) {
+utils.on('loader', 'start', function (o) {
     clearTimeout(loader);
     loader = setTimeout(function () {
         $('.navigation').find('.homer').addClass('hidden').end()
@@ -77,13 +77,13 @@ serand.on('loader', 'start', function (o) {
     }, o.delay || 0);
 });
 
-serand.on('loader', 'end', function (o) {
+utils.on('loader', 'end', function (o) {
     clearTimeout(loader);
     $('.navigation').find('.loader').addClass('hidden').end()
         .find('.homer').removeClass('hidden');
 });
 
-serand.on('page', 'ready', function () {
+utils.on('page', 'ready', function () {
     clearTimeout(loader);
     loader = null;
 });
