@@ -35,19 +35,25 @@ var render = function (ctx, container, links, done) {
             title: 'Admin'
         });
     }
-    dust.render('navigation-ui', serand.pack({
-        user: ctx.token && ctx.token.user,
-        menu: links
-    }, container), function (err, out) {
+    utils.cdn('statics', '/logo/master/logo.png', function (err, url) {
         if (err) {
             return done(err);
         }
-        var el = container.sandbox;
-        el.append(out);
-        $('.logout', el).on('click', function () {
-            utils.emit('user', 'logout', ctx.token.user);
+        dust.render('navigation-ui', serand.pack({
+            logo: url,
+            user: ctx.token && ctx.token.user,
+            menu: links
+        }, container), function (err, out) {
+            if (err) {
+                return done(err);
+            }
+            var el = container.sandbox;
+            el.append(out);
+            $('.logout', el).on('click', function () {
+                utils.emit('user', 'logout', ctx.token.user);
+            });
+            done();
         });
-        done();
     });
 };
 

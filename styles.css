@@ -1,3 +1,17 @@
 body {
     padding-top: 70px;
 }
+
+.navigation .spinner-border {
+    width: 30px;
+    height: 30px;
+}
+
+.navigation .navbar-brand .d-flex {
+    width: 32px;
+}
+
+.navigation .homer {
+    width: 32px;
+    height: 32px;
+}
