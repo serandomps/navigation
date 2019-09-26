@@ -1,7 +1,3 @@
-body {
-    padding-top: 70px;
-}
-
 .navigation .spinner-border {
     width: 30px;
     height: 30px;
@@ -14,4 +10,12 @@ body {
 .navigation .homer {
     width: 32px;
     height: 32px;
+}
+
+.navigation .navbar-brand a {
+    color: #fff;
+}
+
+.navigation.navbar-light .navbar-brand a {
+    color: #6c757d;
 }

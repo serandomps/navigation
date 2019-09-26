@@ -1,16 +1,21 @@
-<nav class="navigation navbar fixed-top navbar-expand-lg navbar-dark bg-secondary">
+<nav class="navigation navbar navbar-expand-lg
+        {?menu.fixed} fixed-top{/menu.fixed}
+        {?menu.color} {menu.color}{/menu.color}
+        {?menu.background} {menu.background}{/menu.background}">
     <div class="container">
-        <a class="home navbar-brand d-flex align-items-center" href="{menu.home.url}">
-            <div class="d-flex mr-1">
-                <img class="homer" src="{logo}" alt=""/>
-                <div class="loader hidden">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="sr-only">Loading...</span>
+        <div class="home navbar-brand d-flex align-items-center">
+            <a class="text-decoration-none" href="{menu.root.url|url}">
+                <div class="d-flex mr-1">
+                    <img class="homer" src="{logo}" alt=""/>
+                    <div class="loader hidden">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            {menu.home.title}
-        </a>
+            </a>
+            <a class="text-decoration-none" href="{menu.home.url|url}">{menu.home.title}</a>
+        </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-{_.container}"
                 aria-controls="navbar-{_.container}" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -21,9 +26,9 @@
                 {#menu.global}
                 <li class="nav-item{?active} active{/active}">
                     <a class="nav-link" href="{url|url}">{title}
-                    {?active}
+                        {?active}
                         <span class="sr-only">(current)</span>
-                    {/active}
+                        {/active}
                     </a>
                 </li>
                 {/menu.global}
