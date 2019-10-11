@@ -29,7 +29,7 @@ var render = function (ctx, container, links, done) {
 
         };
     }
-    if (sera.is('admin')) {
+    if (sera.is('admin') && utils.subdomain().indexOf('.admin') === -1) {
         links.local.unshift({
             url: 'admin://',
             title: 'Admin'

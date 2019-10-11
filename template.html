@@ -34,7 +34,6 @@
                 {/menu.global}
             </ul>
             <ul class="navbar-nav ml-auto">
-                {?user}
                 {#menu.local}
                 <li class="nav-item{?active} active{/active}">
                     <a class="nav-link" href="{url|url}">{title}
@@ -57,7 +56,6 @@
                         <a class="logout dropdown-item" href="#">Logout</a>
                     </div>
                 </li>
-                {/user}
                 {:else}
                 {#menu.signin}
                 <li class="nav-item">
