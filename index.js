@@ -59,7 +59,6 @@ var render = function (ctx, container, links, done) {
 
 dust.loadSource(dust.compile(require('./template'), 'navigation-ui'));
 
-//TODO: fix navigation issue here ruchira
 module.exports = function (ctx, container, options, done) {
     var destroy = function () {
         $('.navigation', container.sandbox).remove();
