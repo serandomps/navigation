@@ -35,6 +35,11 @@ var render = function (ctx, container, links, done) {
             title: 'Admin'
         });
     }
+    if (links.signin) {
+        links.signin.url = utils.query(links.signin.url, {
+            redirect_uri: ctx.path
+        });
+    }
     utils.cdn('statics', '/logo/master/logo.png', function (err, url) {
         if (err) {
             return done(err);
@@ -49,8 +54,9 @@ var render = function (ctx, container, links, done) {
             }
             var el = container.sandbox;
             el.append(out);
-            $('.logout', el).on('click', function () {
+            $('.logout', el).on('click', function (e) {
                 utils.emit('user', 'logout', ctx.token.user);
+                return false
             });
             done();
         });

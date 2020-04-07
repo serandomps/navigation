@@ -43,12 +43,12 @@
                     </a>
                 </li>
                 {/menu.local}
-                {#user}
+                {#user container=_.container}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="user-dropdown-{_.container}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="user-dropdown-{container}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {email}
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="user-dropdown-{_.container}">
+                    <div class="dropdown-menu" aria-labelledby="user-dropdown-{container}">
                         {#menu.user}
                         <a class="dropdown-item" href="{url|url}">{title}</a>
                         {/menu.user}
