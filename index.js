@@ -1,6 +1,7 @@
 var dust = require('dust')();
 var serand = require('serand');
 var utils = require('utils');
+var watcher = require('watcher');
 
 var user;
 
@@ -55,7 +56,7 @@ var render = function (ctx, container, links, done) {
             var el = container.sandbox;
             el.append(out);
             $('.logout', el).on('click', function (e) {
-                utils.emit('user', 'logout', ctx.token.user);
+                watcher.emit('user', 'logout', ctx.token.user);
                 return false
             });
             done();
@@ -80,7 +81,7 @@ module.exports = function (ctx, container, options, done) {
     });
 };
 
-utils.on('loader', 'start', function (o) {
+watcher.on('loader', 'start', function (o) {
     clearTimeout(loader);
     loader = setTimeout(function () {
         $('.navigation').find('.homer').addClass('hidden').end()
@@ -88,13 +89,13 @@ utils.on('loader', 'start', function (o) {
     }, o.delay || 0);
 });
 
-utils.on('loader', 'end', function (o) {
+watcher.on('loader', 'end', function (o) {
     clearTimeout(loader);
     $('.navigation').find('.loader').addClass('hidden').end()
         .find('.homer').removeClass('hidden');
 });
 
-utils.on('page', 'ready', function () {
+watcher.on('page', 'ready', function () {
     clearTimeout(loader);
     loader = null;
 });
